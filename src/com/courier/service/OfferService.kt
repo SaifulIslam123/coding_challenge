@@ -17,11 +17,11 @@ class OfferService {
     }
 
     fun getDiscount(offerName: String, distance: Int, weight: Int): Int {
-        val index = offerList.indexOfFirst { offer -> offer.offerName.equals(offerName) }
+        val index = offerList.indexOfFirst { offer -> offer.offerName.equals(offerName, ignoreCase = true) }
         if (index != -1) {
             val offer = offerList.get(index)
             if ((distance >= offer.distance.min && distance <= offer.distance.max) &&
-                weight >= offer.weight.min && weight <= offer.weight.max
+                    weight >= offer.weight.min && weight <= offer.weight.max
             ) {
                 return offer.discountPercentage
             } else return 0
