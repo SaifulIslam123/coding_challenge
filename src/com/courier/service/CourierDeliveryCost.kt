@@ -5,6 +5,10 @@ class CourierDeliveryCost {
     private val offerService = OfferService()
     private var baseDeliveryCost = 0
 
+    init {
+        offerService.createOffer()
+    }
+
     fun takeInput() {
         println("Enter base_delivery_cost no_of_packges")
         val input = readLine()
@@ -34,23 +38,17 @@ class CourierDeliveryCost {
         val weight = parts[1].toInt()
         val distance = parts[2].toInt()
         val offer = parts[3]
-        val discount = if (offer.isEmpty()) 0 else offerService.getDiscount(offer, distance, weight)
 
         var totalDeliveryCost = baseDeliveryCost + (weight * 10) + (distance * 5)
+        val discount = if (offer.isEmpty()) 0 else {
+            val percent = offerService.getDiscount(offer, distance, weight)
+            (totalDeliveryCost * percent) / 100
+        }
 
-        totalDeliveryCost -= (totalDeliveryCost % discount)
+
+        totalDeliveryCost -= discount
 
         println("${parts[0]} $discount $totalDeliveryCost")
-    }
-
-
-    fun createOffer() {
-        val offerList = arrayListOf<Offer>(
-                Offer("ofr001", 10, Distance(0, 200), Weight(70, 200)),
-                Offer("ofr002", 7, Distance(50, 150), Weight(100, 250)),
-                Offer("ofr003", 5, Distance(50, 250), Weight(10, 150))
-        )
-        offerService.addOffer(offerList)
     }
 
 }

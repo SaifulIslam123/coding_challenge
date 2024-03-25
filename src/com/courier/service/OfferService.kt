@@ -29,6 +29,15 @@ class OfferService {
             return 0
         }
     }
+
+    fun createOffer() {
+        val offerList = arrayListOf<Offer>(
+                Offer("ofr001", 10, Distance(0, 200), Weight(70, 200)),
+                Offer("ofr002", 7, Distance(50, 150), Weight(100, 250)),
+                Offer("ofr003", 5, Distance(50, 250), Weight(10, 150))
+        )
+        addOffer(offerList)
+    }
 }
 
 data class Offer(val offerName: String, val discountPercentage: Int, val distance: Distance, val weight: Weight)
