@@ -40,7 +40,4 @@ class OfferService {
     }
 }
 
-data class Offer(val offerName: String, val discountPercentage: Int, val distance: Distance, val weight: Weight)
-data class Weight(val min: Int, val max: Int)
-data class Distance(val min: Int, val max: Int)
 
