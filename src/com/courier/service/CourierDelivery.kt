@@ -18,7 +18,7 @@ class CourierDelivery {
     }
 
     fun takeInput() {
-        /*println("Enter base_delivery_cost no_of_packges")
+       /* println("Enter base_delivery_cost no_of_packges")
         val input = readLine()
         if (input != null && input.contains(" ")) {
             val parts = input.split(" ")
@@ -33,10 +33,10 @@ class CourierDelivery {
                 val weight = parts[1].toInt()
                 val distance = parts[2].toInt()
                 val offer = parts[3]
-                packageList.add(Package(it, packageName, weight, distance, offer))
+                packageList.add(Package(id = it, packageName = packageName, weight = weight, distance = distance, offerCode = offer))
             }
 
-            println("Enter no_of_vehicles max_speed max_carriable_weight")
+            println("Enter no_of_vehicle max_speed max_carriable_weight")
             val vehicleInput = readLine()
             if (vehicleInput != null && vehicleInput.contains(" ")) {
                 val inputParts = vehicleInput.split(" ")
@@ -48,10 +48,7 @@ class CourierDelivery {
                 }
             }
 
-            calculateDeliveryTime()
-            *//* finalOutputPackageList.forEach {
-                 println("${it.packageName} ${it.deliveryCost} ${it.deliveryTime}")
-             }*//*
+            //TODO: process data
         }*/
 
         setTestData()
