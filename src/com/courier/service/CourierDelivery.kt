@@ -1,6 +1,7 @@
 package com.courier.service
 
 import findMaxSum
+import java.text.DecimalFormat
 
 class CourierDelivery {
 
@@ -17,7 +18,7 @@ class CourierDelivery {
     }
 
     fun takeInput() {
-        println("Enter base_delivery_cost no_of_packges")
+        /*println("Enter base_delivery_cost no_of_packges")
         val input = readLine()
         if (input != null && input.contains(" ")) {
             val parts = input.split(" ")
@@ -48,21 +49,35 @@ class CourierDelivery {
             }
 
             calculateDeliveryTime()
-            finalOutputPackageList.forEach {
-                println("${it.packageName} ${it.deliveryCost} ${it.deliveryTime}")
-            }
+            *//* finalOutputPackageList.forEach {
+                 println("${it.packageName} ${it.deliveryCost} ${it.deliveryTime}")
+             }*//*
+        }*/
 
-
-            /*// Print the inputs
-            //println("You entered $numberOfPackage lines:")
-            packageList.forEachIndexed { index, input ->
-                //println("${baseDeliveryCost} Line ${index + 1}: $input")
-                calculateTotalDeliveryCost(input)
-            }*/
+        setTestData()
+        calculateDeliveryTime()
+        finalOutputPackageList.sortBy { it.id }
+        finalOutputPackageList.forEach {
+            println("${it.packageName} ${it.discount} ${it.deliveryCost} ${it.deliveryTime}")
         }
     }
 
-    fun calculateDeliveryTotalCost(pack: Package): Int {
+    fun setTestData() {
+        baseDeliveryCost = 100
+
+        packageList.add(Package(id = 0, packageName = "PKG1", weight = 50, distance = 30, offerCode = "OFR001"))
+        packageList.add(Package(id = 1, packageName = "PKG2", weight = 75, distance = 125, offerCode = "OFR008"))
+        packageList.add(Package(id = 2, packageName = "PKG3", weight = 175, distance = 100, offerCode = "OFR003"))
+        packageList.add(Package(id = 3, packageName = "PKG4", weight = 110, distance = 60, offerCode = "OFR002"))
+        packageList.add(Package(id = 4, packageName = "PKG5", weight = 155, distance = 95, offerCode = "NA"))
+
+        vehicleList.add(Vehicle(0))
+        vehicleList.add(Vehicle(1))
+        maxVehicleSpeed = 70
+        maxCarriableWeight = 200
+    }
+
+    fun calculateDeliveryTotalCost(pack: Package): Pair<Int, Int> {
 
         var totalDeliveryCost = baseDeliveryCost + (pack.weight * 10) + (pack.distance * 5)
         val discount = if (pack.offerCode.isNullOrEmpty()) 0 else {
@@ -71,8 +86,8 @@ class CourierDelivery {
         }
 
         totalDeliveryCost -= discount
-        println("${pack.packageName} $discount $totalDeliveryCost")
-        return totalDeliveryCost
+        //println("${pack.packageName} $discount $totalDeliveryCost")
+        return Pair(discount, totalDeliveryCost)
     }
 
 
@@ -82,23 +97,23 @@ class CourierDelivery {
             packageList.removeAll(selectedPackages)
 
             //assign vehicle
-            /*var deliveryVehicle: Vehicle? = vehicleList.first()
-            if (!vehicleList.first().availableTime.equals(0)) {
-                deliveryVehicle = vehicleList.minBy { it.availableTime }
-            }*/
-
             val deliveryVehicle: Vehicle? = vehicleList.minBy { it.availableTime }
 
             var maxPackageDistance = 0.0
             selectedPackages.forEach { package1 ->
 
-                val packDeliveryTime = (package1.distance / maxVehicleSpeed).toDouble()
+                val packDeliveryTime = (package1.distance.toDouble() / maxVehicleSpeed).let {
+                    val decimalFormat = DecimalFormat("#.##")
+                    return@let decimalFormat.format(it).toDouble()
+                }
+
                 if (packDeliveryTime > maxPackageDistance) maxPackageDistance = packDeliveryTime
                 package1.deliveryTime = deliveryVehicle?.availableTime!! + packDeliveryTime
-                package1.deliveryCost = calculateDeliveryTotalCost(package1)
+                val deliveryCostInfo = calculateDeliveryTotalCost(package1)
+                package1.discount = deliveryCostInfo.first
+                package1.deliveryCost = deliveryCostInfo.second
 
-                //finalOutputPackageList.add(package1.id, package1)
-                println(package1)
+                finalOutputPackageList.add(package1)
             }
             deliveryVehicle?.let {
                 it.availableTime = it.availableTime + (maxPackageDistance * 2)

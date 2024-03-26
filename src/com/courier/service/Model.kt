@@ -1,6 +1,6 @@
 package com.courier.service
 
-data class Package(val id: Int, val packageName: String, val weight: Int, val distance: Int, val offerCode: String? = null,
+data class Package(val id: Int, val packageName: String, var discount: Int = 0, val weight: Int, val distance: Int, val offerCode: String? = null,
                    var deliveryTime: Double = 0.0, var deliveryCost: Int = 0)
 
 data class Offer(val offerName: String, val discountPercentage: Int, val distance: Distance, val weight: Weight)
