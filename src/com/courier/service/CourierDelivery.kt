@@ -1,5 +1,7 @@
 package com.courier.service
 
+import findMaxSum
+
 class CourierDelivery {
 
     private val offerService = OfferService()
@@ -8,6 +10,7 @@ class CourierDelivery {
     private val vehicleList = mutableListOf<Vehicle>()
     private var maxVehicleSpeed = 0
     private var maxCarriableWeight = 0
+    private var finalOutputPackageList = mutableListOf<Package>()
 
     init {
         offerService.createOffer()
@@ -29,7 +32,7 @@ class CourierDelivery {
                 val weight = parts[1].toInt()
                 val distance = parts[2].toInt()
                 val offer = parts[3]
-                packageList.add(Package(packageName, weight, distance, offer))
+                packageList.add(Package(it, packageName, weight, distance, offer))
             }
 
             println("Enter no_of_vehicles max_speed max_carriable_weight")
@@ -45,17 +48,16 @@ class CourierDelivery {
 
             }
 
-            // Print the inputs
+            /*// Print the inputs
             //println("You entered $numberOfPackage lines:")
             packageList.forEachIndexed { index, input ->
                 //println("${baseDeliveryCost} Line ${index + 1}: $input")
                 calculateTotalDeliveryCost(input)
-            }
+            }*/
         }
     }
 
-
-    fun calculateTotalDeliveryCost(pack: Package) {
+    fun calculateDeliveryTotalCost(pack: Package): Int {
 
         var totalDeliveryCost = baseDeliveryCost + (pack.weight * 10) + (pack.distance * 5)
         val discount = if (pack.offerCode.isNullOrEmpty()) 0 else {
@@ -65,6 +67,33 @@ class CourierDelivery {
 
         totalDeliveryCost -= discount
         println("${pack.packageName} $discount $totalDeliveryCost")
+        return totalDeliveryCost
+    }
+
+
+    fun calculateDeliveryTime() {
+        while (packageList.size > 0) {
+            val (maxWeight, selectedPackages) = findMaxSum(packageList, maxCarriableWeight)
+            packageList.removeAll(selectedPackages)
+
+            //assign vehicle
+            var deliveryVehicle: Vehicle? = vehicleList.first()
+            if (!vehicleList.first().availableTime.equals(0)) {
+                deliveryVehicle = vehicleList.minBy { it.availableTime }
+            }
+
+            var vehicleDeliveryTime = 0.0
+            selectedPackages.forEach { package1 ->
+
+                val packDeliveryTime = (package1.distance / maxVehicleSpeed).toDouble()
+                package1.deliveryTime = deliveryVehicle?.totalDeliveryTime!! + packDeliveryTime
+                package1.deliveryCost = calculateDeliveryTotalCost(package1)
+
+                finalOutputPackageList.add(package1.id, package1)
+
+                // vehicleDeliveryTime += pack.deliveryTime
+            }
+        }
     }
 
 
