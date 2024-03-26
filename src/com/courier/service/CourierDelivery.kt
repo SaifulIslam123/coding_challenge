@@ -45,8 +45,13 @@ class CourierDelivery {
                 repeat(inputParts[0].toInt()) {
                     vehicleList.add(Vehicle(it))
                 }
-
             }
+
+            calculateDeliveryTime()
+            finalOutputPackageList.forEach {
+                println("${it.packageName} ${it.deliveryCost} ${it.deliveryTime}")
+            }
+
 
             /*// Print the inputs
             //println("You entered $numberOfPackage lines:")
@@ -77,21 +82,26 @@ class CourierDelivery {
             packageList.removeAll(selectedPackages)
 
             //assign vehicle
-            var deliveryVehicle: Vehicle? = vehicleList.first()
+            /*var deliveryVehicle: Vehicle? = vehicleList.first()
             if (!vehicleList.first().availableTime.equals(0)) {
                 deliveryVehicle = vehicleList.minBy { it.availableTime }
-            }
+            }*/
 
-            var vehicleDeliveryTime = 0.0
+            val deliveryVehicle: Vehicle? = vehicleList.minBy { it.availableTime }
+
+            var maxPackageDistance = 0.0
             selectedPackages.forEach { package1 ->
 
                 val packDeliveryTime = (package1.distance / maxVehicleSpeed).toDouble()
-                package1.deliveryTime = deliveryVehicle?.totalDeliveryTime!! + packDeliveryTime
+                if (packDeliveryTime > maxPackageDistance) maxPackageDistance = packDeliveryTime
+                package1.deliveryTime = deliveryVehicle?.availableTime!! + packDeliveryTime
                 package1.deliveryCost = calculateDeliveryTotalCost(package1)
 
-                finalOutputPackageList.add(package1.id, package1)
-
-                // vehicleDeliveryTime += pack.deliveryTime
+                //finalOutputPackageList.add(package1.id, package1)
+                println(package1)
+            }
+            deliveryVehicle?.let {
+                it.availableTime = it.availableTime + (maxPackageDistance * 2)
             }
         }
     }
