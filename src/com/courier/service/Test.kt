@@ -1,24 +1,7 @@
 import com.courier.service.CourierDelivery
 import com.courier.service.Package
 
-fun findMaxSum(packages: List<Package>, totalWeight: Int): Pair<Int, List<Package>> {
-    val n = packages.size
-    val dp = Array(totalWeight + 1) { 0 }
-    val selectedPackages = Array(totalWeight + 1) { mutableListOf<Package>() }
 
-    for (i in 0 until n) {
-        for (j in totalWeight downTo packages[i].weight) {
-            if (dp[j] < dp[j - packages[i].weight] + packages[i].weight) {
-                dp[j] = dp[j - packages[i].weight] + packages[i].weight
-                selectedPackages[j] = selectedPackages[j - packages[i].weight].toMutableList().apply { add(packages[i]) }
-            }
-        }
-    }
-
-    val maxWeight = dp[totalWeight]
-    val selectedItems = selectedPackages[totalWeight]
-    return maxWeight to selectedItems
-}
 
 fun main() {
    /* val packages = listOf(
