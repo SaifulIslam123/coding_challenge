@@ -1,23 +1,20 @@
-package com.courier.service
+package com.courier.service.repository
 
 import com.courier.service.model.Package
 import com.courier.service.model.Vehicle
 
-class CourierDeliveryTime {
+class CourierDeliveryTime(private val courierDeliveryCost: CourierDeliveryCost) {
 
     var packageList = mutableListOf<Package>()
-    val vehicleList = mutableListOf<Vehicle>()
+    var vehicleList = mutableListOf<Vehicle>()
     var maxVehicleSpeed = 0
     var maxCarriableWeight = 0
-    private var finalOutputPackageList = mutableListOf<Package>()
+    // private var finalOutputPackageList = mutableListOf<Package>()
 
-    var courierDeliveryCost: CourierDeliveryCost? = null
-        set(value) {
-            field = value
-        }
+    fun calculateDeliveryTime(): MutableList<Package> {
 
+        val finalOutputPackageList = mutableListOf<Package>()
 
-    fun calculateDeliveryTime() {
         while (packageList.size > 0) {
             val (maxWeight, selectedPackages) = getMaxWeightPackageList(packageList, maxCarriableWeight)
             packageList.removeAll(selectedPackages)
@@ -35,7 +32,7 @@ class CourierDeliveryTime {
 
                 if (packDeliveryTime > maxPackageDistance) maxPackageDistance = packDeliveryTime
                 package1.deliveryTime = deliveryVehicle?.availableTime!! + packDeliveryTime
-                val deliveryCostInfo = courierDeliveryCost?.calculateDeliveryTotalCost(package1) ?: Pair(0, 0)
+                val deliveryCostInfo = courierDeliveryCost.calculateDeliveryTotalCost(package1)
                 package1.discount = deliveryCostInfo.first
                 package1.deliveryCost = deliveryCostInfo.second
 
@@ -45,10 +42,12 @@ class CourierDeliveryTime {
                 it.availableTime = it.availableTime + (maxPackageDistance * 2)
             }
 
-           /* println(finalOutputPackageList)
-            println(deliveryVehicle?.availableTime)
-            println("-----------------")*/
+            /* println(finalOutputPackageList)
+             println(deliveryVehicle?.availableTime)
+             println("-----------------")*/
         }
+
+        return finalOutputPackageList
     }
 
     private fun getMaxWeightPackageList(packages: List<Package>, totalWeight: Int): Pair<Int, List<Package>> {
@@ -68,16 +67,6 @@ class CourierDeliveryTime {
         val maxWeight = dp[totalWeight]
         val selectedItems = selectedPackages[totalWeight]
         return maxWeight to selectedItems
-    }
-
-    fun showOutput() {
-        println()
-        println("Output")
-        println()
-        finalOutputPackageList.sortBy { it.id }
-        finalOutputPackageList.forEach {
-            println("${it.packageName} ${it.discount} ${it.deliveryCost} ${it.deliveryTime}")
-        }
     }
 
 }

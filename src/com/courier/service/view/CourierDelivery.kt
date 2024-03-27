@@ -1,27 +1,12 @@
-package com.courier.service
+package com.courier.service.view
 
 import com.courier.service.model.Package
 import com.courier.service.model.Vehicle
-import com.courier.service.repository.OfferService
 
-class CourierDelivery {
-
-    private var offerService: OfferService
-    private var courierDeliveryCost: CourierDeliveryCost
-    private var courierDeliveryTime: CourierDeliveryTime
-    private var viewModel = ViewModel()
+class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : CourierDeliveryViewModel.View {
 
     init {
-        //Injectable objects
-        offerService = OfferService()
-        offerService.createOffer()
-
-        courierDeliveryCost = CourierDeliveryCost()
-        courierDeliveryCost.offerService = offerService
-
-        courierDeliveryTime = CourierDeliveryTime()
-        courierDeliveryTime.courierDeliveryCost = courierDeliveryCost
-
+        viewModel.view = this
     }
 
     fun takeInput() {
@@ -60,7 +45,7 @@ class CourierDelivery {
             }
 
             viewModel.calculateDeliveryTime()
-           // courierDeliveryTime.showOutput()
+            // courierDeliveryTime.showOutput()
         }
 
         /*setTestData()
@@ -68,21 +53,34 @@ class CourierDelivery {
         courierDeliveryTime.showOutput()*/
     }
 
-    fun setTestData() {
-        courierDeliveryCost.baseDeliveryCost = 100
+    /* fun setTestData() {
+         courierDeliveryCost.baseDeliveryCost = 100
 
-        courierDeliveryTime.packageList.add(Package(id = 0, packageName = "PKG1", weight = 50, distance = 30, offerCode = "OFR001"))
-        courierDeliveryTime.packageList.add(Package(id = 1, packageName = "PKG2", weight = 75, distance = 125, offerCode = "OFR008"))
-        courierDeliveryTime.packageList.add(Package(id = 2, packageName = "PKG3", weight = 175, distance = 100, offerCode = "OFR003"))
-        courierDeliveryTime.packageList.add(Package(id = 3, packageName = "PKG4", weight = 110, distance = 60, offerCode = "OFR002"))
-        courierDeliveryTime.packageList.add(Package(id = 4, packageName = "PKG5", weight = 155, distance = 95, offerCode = "NA"))
+         courierDeliveryTime.packageList.add(Package(id = 0, packageName = "PKG1", weight = 50, distance = 30, offerCode = "OFR001"))
+         courierDeliveryTime.packageList.add(Package(id = 1, packageName = "PKG2", weight = 75, distance = 125, offerCode = "OFR008"))
+         courierDeliveryTime.packageList.add(Package(id = 2, packageName = "PKG3", weight = 175, distance = 100, offerCode = "OFR003"))
+         courierDeliveryTime.packageList.add(Package(id = 3, packageName = "PKG4", weight = 110, distance = 60, offerCode = "OFR002"))
+         courierDeliveryTime.packageList.add(Package(id = 4, packageName = "PKG5", weight = 155, distance = 95, offerCode = "NA"))
 
-        courierDeliveryTime.vehicleList.add(Vehicle(0))
-        //courierDeliveryTime.vehicleList.add(Vehicle(1))
-        // courierDeliveryTime.vehicleList.add(Vehicle(2))
-        //courierDeliveryTime.vehicleList.add(Vehicle(3))
+         courierDeliveryTime.vehicleList.add(Vehicle(0))
+         //courierDeliveryTime.vehicleList.add(Vehicle(1))
+         // courierDeliveryTime.vehicleList.add(Vehicle(2))
+         //courierDeliveryTime.vehicleList.add(Vehicle(3))
 
-        courierDeliveryTime.maxVehicleSpeed = 70
-        courierDeliveryTime.maxCarriableWeight = 200
+         courierDeliveryTime.maxVehicleSpeed = 70
+         courierDeliveryTime.maxCarriableWeight = 200
+     }*/
+
+    override fun showOutput(packageList: MutableList<Package>) {
+        println()
+        println("Output")
+        println()
+        packageList.sortBy { it.id }
+        packageList.forEach {
+            println("${it.packageName} ${it.discount} ${it.deliveryCost} ${it.deliveryTime}")
+        }
     }
+
+
 }
+
