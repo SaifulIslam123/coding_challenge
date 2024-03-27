@@ -2,6 +2,7 @@ package com.courier.service.view
 
 import com.courier.service.model.Package
 import com.courier.service.model.Vehicle
+import java.lang.Exception
 
 class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : CourierDeliveryViewModel.View {
 
@@ -10,42 +11,55 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
     }
 
     fun takeInput() {
-        println("Enter base_delivery_cost no_of_packges")
+        println("ENTER BASE_DELIVERY_COST NO_OF_PACKAGES")
         val input = readLine()
         if (input != null && input.contains(" ")) {
             val parts = input.split(" ")
-            //  courierDeliveryCost.baseDeliveryCost = parts[0].toInt()
-            viewModel.inputData.baseDeliveryCost = parts[0].toInt()
-            val numberOfPackage = parts[1].toInt()
-
-            println("Enter pkg_id pkg_weight_in_kg distance_in_km offer_code")
-            repeat(numberOfPackage) {
-                val line = readLine() ?: ""
-                val parts = line.split(" ")
-                val packageName = parts[0]
-                val weight = parts[1].toInt()
-                val distance = parts[2].toInt()
-                val offer = parts[3]
-                //courierDeliveryTime.packageList.add(Package(id = it, packageName = packageName, weight = weight, distance = distance, offerCode = offer))
-                viewModel.inputData.packageList.add(Package(id = it, packageName = packageName, weight = weight, distance = distance, offerCode = offer))
+            if (parts.size != 2) {
+                println("Invalid input format. Enter BASE_DELIVERY_COST and NO_OF_PACKAGES separated by a space.")
+                return
             }
+            try {
+                viewModel.inputData.baseDeliveryCost = parts[0].toInt()
+                val numberOfPackage = parts[1].toInt()
 
-            println("Enter no_of_vehicle max_speed max_carriable_weight")
-            val vehicleInput = readLine()
-            if (vehicleInput != null && vehicleInput.contains(" ")) {
-                val inputParts = vehicleInput.split(" ")
-                //courierDeliveryTime.maxVehicleSpeed = inputParts[1].toInt()
-                //courierDeliveryTime.maxCarriableWeight = inputParts[2].toInt()
-                viewModel.inputData.maxVehicleSpeed = inputParts[1].toInt()
-                viewModel.inputData.maxCarriableWeight = inputParts[2].toInt()
-
-                repeat(inputParts[0].toInt()) {
-                    viewModel.inputData.vehicleList.add(Vehicle(it))
+                println("ENTER PACKAGE_ID PKG_WEIGHT_IN_KG DISTANCE_IN_KM OFFER_CODE")
+                repeat(numberOfPackage) {
+                    val line = readLine() ?: ""
+                    val parts = line.split(" ")
+                    if (parts.size != 4) {
+                        println("Invalid input format for package details.")
+                        return
+                    }
+                    val packageName = parts[0]
+                    val weight = parts[1].toInt()
+                    val distance = parts[2].toInt()
+                    val offer = parts[3]
+                    viewModel.inputData.packageList.add(Package(id = it, packageName = packageName, weight = weight, distance = distance, offerCode = offer))
                 }
-            }
 
-            viewModel.calculateDeliveryTime()
-            // courierDeliveryTime.showOutput()
+                println("ENTER NO_OF_VEHICLE MAX_SPEED MAX_CARRIABLE_WEIGHT")
+                val vehicleInput = readLine()
+                if (vehicleInput != null && vehicleInput.contains(" ")) {
+                    val inputParts = vehicleInput.split(" ")
+                    if (inputParts.size != 3) {
+                        println("Invalid input format for vehicle details.")
+                        return
+                    }
+                    viewModel.inputData.maxVehicleSpeed = inputParts[1].toInt()
+                    viewModel.inputData.maxCarriableWeight = inputParts[2].toInt()
+
+                    repeat(inputParts[0].toInt()) {
+                        viewModel.inputData.vehicleList.add(Vehicle(it))
+                    }
+                }
+
+                viewModel.calculateDeliveryTime()
+            } catch (e: Exception) {
+                println("Invalid input format. Please enter numbers where required.")
+            }
+        } else {
+            println("Invalid input format.")
         }
 
         /*setTestData()
@@ -73,7 +87,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
 
     override fun showOutput(packageList: MutableList<Package>) {
         println()
-        println("Output")
+        println("OUTPUT -> PACKAGE_ID DISCOUNT TOTAL_COST ESTIMATED_DELIVERY_TIME_IN_HOURS")
         println()
         packageList.sortBy { it.id }
         packageList.forEach {
