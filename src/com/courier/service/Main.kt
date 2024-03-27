@@ -16,6 +16,6 @@ fun main() {
     val repository = CourierDeliveryRepository(courierDeliveryCost, courierDeliveryTime)
     val viewModel = CourierDeliveryViewModel(repository)
 
-    CourierDelivery(viewModel).also { it.takeInput() }
+    CourierDelivery(viewModel).also { it.getCourierDeliveryInput() }
 
 }
