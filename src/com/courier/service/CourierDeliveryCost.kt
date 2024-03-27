@@ -1,5 +1,8 @@
 package com.courier.service
 
+import com.courier.service.model.Package
+import com.courier.service.repository.OfferService
+
 class CourierDeliveryCost {
 
     var baseDeliveryCost = 0

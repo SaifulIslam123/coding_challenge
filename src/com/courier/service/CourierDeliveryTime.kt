@@ -1,8 +1,11 @@
 package com.courier.service
 
+import com.courier.service.model.Package
+import com.courier.service.model.Vehicle
+
 class CourierDeliveryTime {
 
-    val packageList = mutableListOf<Package>()
+    var packageList = mutableListOf<Package>()
     val vehicleList = mutableListOf<Vehicle>()
     var maxVehicleSpeed = 0
     var maxCarriableWeight = 0
@@ -41,6 +44,10 @@ class CourierDeliveryTime {
             deliveryVehicle?.let {
                 it.availableTime = it.availableTime + (maxPackageDistance * 2)
             }
+
+           /* println(finalOutputPackageList)
+            println(deliveryVehicle?.availableTime)
+            println("-----------------")*/
         }
     }
 

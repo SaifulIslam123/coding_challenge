@@ -1,4 +1,8 @@
-package com.courier.service
+package com.courier.service.repository
+
+import com.courier.service.model.Distance
+import com.courier.service.model.Offer
+import com.courier.service.model.Weight
 
 class OfferService {
 

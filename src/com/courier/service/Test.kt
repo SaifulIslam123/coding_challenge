@@ -1,6 +1,4 @@
 import com.courier.service.CourierDelivery
-import com.courier.service.Package
-
 
 
 fun main() {
