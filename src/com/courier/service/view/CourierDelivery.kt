@@ -15,10 +15,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         val input = readLine()
         if (input != null && input.contains(" ")) {
             val parts = input.split(" ")
-            if (parts.size != 2) {
-                println("Invalid input format. Enter BASE_DELIVERY_COST and NO_OF_PACKAGES separated by a space.")
-                return
-            }
+            if (!viewModel.validatePackageInput(parts)) return
             try {
                 viewModel.inputData.baseDeliveryCost = parts[0].toInt()
                 val numberOfPackage = parts[1].toInt()
@@ -27,10 +24,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
                 repeat(numberOfPackage) {
                     val line = readLine() ?: ""
                     val parts = line.split(" ")
-                    if (parts.size != 4) {
-                        println("Invalid input format for package details.")
-                        return
-                    }
+                    if (!viewModel.validatePackageDetail(parts)) return
                     val packageName = parts[0]
                     val weight = parts[1].toInt()
                     val distance = parts[2].toInt()
@@ -42,10 +36,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
                 val vehicleInput = readLine()
                 if (vehicleInput != null && vehicleInput.contains(" ")) {
                     val inputParts = vehicleInput.split(" ")
-                    if (inputParts.size != 3) {
-                        println("Invalid input format for vehicle details.")
-                        return
-                    }
+                    if (!viewModel.validateVehicleDetail(inputParts)) return
                     viewModel.inputData.maxVehicleSpeed = inputParts[1].toInt()
                     viewModel.inputData.maxCarriableWeight = inputParts[2].toInt()
 
@@ -63,6 +54,15 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         }
     }
 
+
+    override fun showEmptyPackageError() {
+        println("BASE_DELIVERY_COST and NO_OF_PACKAGES can't be zero or empty")
+    }
+
+    override fun showInvalidPackageError() {
+        println("Invalid input format. Enter BASE_DELIVERY_COST and NO_OF_PACKAGES separated by a space")
+    }
+
     override fun showOutput(packageList: MutableList<Package>) {
         println()
         println("OUTPUT -> PACKAGE_ID DISCOUNT TOTAL_COST ESTIMATED_DELIVERY_TIME_IN_HOURS")
@@ -73,6 +73,13 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         }
     }
 
+    override fun showPackageDetailError() {
+        println("Invalid input format for package details. Each package all property value can't be zero or empty")
+    }
+
+    override fun showVehicleDetailError() {
+        println("Invalid input format for vehicle details. Vehicle all property value can't be zero or empty")
+    }
 
     /* fun setTestData() {
         courierDeliveryCost.baseDeliveryCost = 100
