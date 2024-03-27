@@ -10,7 +10,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         viewModel.view = this
     }
 
-    fun takeInput() {
+    fun getCourierDeliveryInput() {
         println("ENTER BASE_DELIVERY_COST NO_OF_PACKAGES")
         val input = readLine()
         if (input != null && input.contains(" ")) {
@@ -61,29 +61,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         } else {
             println("Invalid input format.")
         }
-
-        /*setTestData()
-        courierDeliveryTime.calculateDeliveryTime()
-        courierDeliveryTime.showOutput()*/
     }
-
-    /* fun setTestData() {
-         courierDeliveryCost.baseDeliveryCost = 100
-
-         courierDeliveryTime.packageList.add(Package(id = 0, packageName = "PKG1", weight = 50, distance = 30, offerCode = "OFR001"))
-         courierDeliveryTime.packageList.add(Package(id = 1, packageName = "PKG2", weight = 75, distance = 125, offerCode = "OFR008"))
-         courierDeliveryTime.packageList.add(Package(id = 2, packageName = "PKG3", weight = 175, distance = 100, offerCode = "OFR003"))
-         courierDeliveryTime.packageList.add(Package(id = 3, packageName = "PKG4", weight = 110, distance = 60, offerCode = "OFR002"))
-         courierDeliveryTime.packageList.add(Package(id = 4, packageName = "PKG5", weight = 155, distance = 95, offerCode = "NA"))
-
-         courierDeliveryTime.vehicleList.add(Vehicle(0))
-         //courierDeliveryTime.vehicleList.add(Vehicle(1))
-         // courierDeliveryTime.vehicleList.add(Vehicle(2))
-         //courierDeliveryTime.vehicleList.add(Vehicle(3))
-
-         courierDeliveryTime.maxVehicleSpeed = 70
-         courierDeliveryTime.maxCarriableWeight = 200
-     }*/
 
     override fun showOutput(packageList: MutableList<Package>) {
         println()
@@ -95,6 +73,24 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         }
     }
 
+
+    /* fun setTestData() {
+        courierDeliveryCost.baseDeliveryCost = 100
+
+        courierDeliveryTime.packageList.add(Package(id = 0, packageName = "PKG1", weight = 50, distance = 30, offerCode = "OFR001"))
+        courierDeliveryTime.packageList.add(Package(id = 1, packageName = "PKG2", weight = 75, distance = 125, offerCode = "OFR008"))
+        courierDeliveryTime.packageList.add(Package(id = 2, packageName = "PKG3", weight = 175, distance = 100, offerCode = "OFR003"))
+        courierDeliveryTime.packageList.add(Package(id = 3, packageName = "PKG4", weight = 110, distance = 60, offerCode = "OFR002"))
+        courierDeliveryTime.packageList.add(Package(id = 4, packageName = "PKG5", weight = 155, distance = 95, offerCode = "NA"))
+
+        courierDeliveryTime.vehicleList.add(Vehicle(0))
+        //courierDeliveryTime.vehicleList.add(Vehicle(1))
+        // courierDeliveryTime.vehicleList.add(Vehicle(2))
+        //courierDeliveryTime.vehicleList.add(Vehicle(3))
+
+        courierDeliveryTime.maxVehicleSpeed = 70
+        courierDeliveryTime.maxCarriableWeight = 200
+    }*/
 
 }
 
