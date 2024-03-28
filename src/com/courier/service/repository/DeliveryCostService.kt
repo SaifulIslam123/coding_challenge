@@ -2,7 +2,7 @@ package com.courier.service.repository
 
 import com.courier.service.model.Package
 
-class CourierDeliveryCost(private val offerService: OfferService) {
+class DeliveryCostService(private val offerService: OfferService) {
 
     var baseDeliveryCost = 0
 

@@ -3,7 +3,7 @@ package com.courier.service.repository
 import com.courier.service.model.Package
 import com.courier.service.model.Vehicle
 
-class CourierDeliveryTime(private val courierDeliveryCost: CourierDeliveryCost) {
+class DeliveryTimeService(private val deliveryCostService: DeliveryCostService) {
 
     var packageList = mutableListOf<Package>()
     var vehicleList = mutableListOf<Vehicle>()
@@ -32,7 +32,7 @@ class CourierDeliveryTime(private val courierDeliveryCost: CourierDeliveryCost) 
 
                 if (packDeliveryTime > maxPackageDistance) maxPackageDistance = packDeliveryTime
                 package1.deliveryTime = deliveryVehicle?.availableTime!! + packDeliveryTime
-                val deliveryCostInfo = courierDeliveryCost.calculateDeliveryTotalCost(package1)
+                val deliveryCostInfo = deliveryCostService.calculateDeliveryTotalCost(package1)
                 package1.discount = deliveryCostInfo.first
                 package1.deliveryCost = deliveryCostInfo.second
 
