@@ -12,7 +12,7 @@ Instruction for running the Test case:
 2. CourierDeliveryRepositoryTest class test delivery time test cases. 
 
 
-* In this project OfferService, DeliveryCostService and DeliveryTimeService classes contain the application business logic handling part.
+* This project OfferService, DeliveryCostService and DeliveryTimeService classes contain the application business logic handling part.
 * OfferService provides the functionality for adding, and removing offers and also provides package discount based on offer code.
 * DeliveryCostService class calculates the delivery cost for each package.
 * DeliveryTimeService class calculates the delivery time for each package.
