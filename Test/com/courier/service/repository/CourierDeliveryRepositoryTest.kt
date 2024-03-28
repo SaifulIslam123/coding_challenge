@@ -9,7 +9,7 @@ class CourierDeliveryRepositoryTest : TestCase() {
 
     lateinit var repository: CourierDeliveryRepository
 
-    fun setup() {
+    fun setupDi() {
 
         //Creating dependencies
         val offerService = OfferService().also { it.createOffer() }
@@ -20,7 +20,7 @@ class CourierDeliveryRepositoryTest : TestCase() {
     }
 
     fun testCalculateCourierDeliveryTime() {
-        setup()
+        setupDi()
 
         val inputData = InputData()
         inputData.baseDeliveryCost = 100

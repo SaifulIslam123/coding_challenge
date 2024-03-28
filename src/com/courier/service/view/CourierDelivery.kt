@@ -28,7 +28,9 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
                     val packageName = parts[0]
                     val weight = parts[1].toInt()
                     val distance = parts[2].toInt()
-                    val offer = parts[3]
+                    var offer: String? = null
+                    if (parts.size > 3)
+                        offer = parts[3]
                     viewModel.inputData.packageList.add(Package(id = it, packageName = packageName, weight = weight, distance = distance, offerCode = offer))
                 }
 
@@ -75,7 +77,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
     }
 
     override fun showPackageDetailError() {
-        println("Invalid input format for package details. Each package all property value can't be zero or empty")
+        println("Invalid input format for package details. Each package name, weight, distance properties value can't be zero or empty")
     }
 
     override fun showVehicleDetailError() {
@@ -83,7 +85,7 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
     }
 
     override fun showVehicleWeightError() {
-        println("vehicle max carriable weight must be larger than each package item weight")
+        println("Vehicle max carriable weight must be larger than each package item weight")
     }
 
     /* fun setTestData() {

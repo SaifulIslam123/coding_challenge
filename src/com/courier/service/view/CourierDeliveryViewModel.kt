@@ -20,11 +20,8 @@ class CourierDeliveryViewModel(private val repository: CourierDeliveryRepository
     private fun isInputValid(value: String): Boolean {
 
         try {
-            if (value.isEmpty())
+            if (value.isEmpty() || value.toInt() == 0)
                 return false
-            if (value.toInt() == 0)
-                return false
-            return true
         } catch (e: Exception) {
             return false
         }
@@ -48,7 +45,7 @@ class CourierDeliveryViewModel(private val repository: CourierDeliveryRepository
     }
 
     fun validatePackageDetail(parts: List<String>): Boolean {
-        if (parts.size != 4) {
+        if (parts.size < 3) {
             view?.showPackageDetailError()
             return false
         } else {

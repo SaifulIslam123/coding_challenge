@@ -11,7 +11,7 @@ class CourierDeliveryViewModelTest : TestCase() {
 
     lateinit var viewModel: CourierDeliveryViewModel
 
-    fun setup() {
+    fun setupDi() {
 
         //Creating dependencies
         val offerService = OfferService().also { it.createOffer() }
@@ -23,26 +23,28 @@ class CourierDeliveryViewModelTest : TestCase() {
 
     @Test
     fun testValidatePackageInput() {
-        setup()
+        setupDi()
 
-        assertTrue(viewModel.validateVehicleDetail(listOf("2", "10", "100")))
-        assertFalse(viewModel.validateVehicleDetail(listOf("2", "", "100")))
+        assertTrue(viewModel.validatePackageInput(listOf("2", "10")))
+        assertFalse(viewModel.validatePackageInput(listOf("2", "")))
+        assertFalse(viewModel.validatePackageInput(listOf("2")))
     }
 
 
     @Test
     fun testValidatePackageDetail() {
-        setup()
+        setupDi()
 
-        assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "10", "100")))
+        assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "10")))
         assertTrue(viewModel.validatePackageDetail(listOf("pkg1", "10", "100", "offer001")))
         assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "0", "100", "offer001")))
         assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "22", "0", "offer001")))
+        assertTrue(viewModel.validatePackageDetail(listOf("pkg1", "22", "20")))
     }
 
     @Test
     fun testVehicleDetail() {
-        setup()
+        setupDi()
 
         assertTrue(viewModel.validateVehicleDetail(listOf("10", "100", "300")))
         assertFalse(viewModel.validateVehicleDetail(listOf("10", "100")))
