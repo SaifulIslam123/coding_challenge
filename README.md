@@ -1,8 +1,8 @@
 # coding_challenge
 
 Instruction for running the application:
-1. Always run the main branch code\
-2. Run the application from Main.Kt\
+1. Always run the main branch code
+2. Run the application from Main.Kt
 3. For console input use space between each single input item for an input line. Like\
     ENTER BASE_DELIVERY_COST NO_OF_PACKAGES\
     100[space]25 
