@@ -44,6 +44,8 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
                         viewModel.inputData.vehicleList.add(Vehicle(it))
                     }
                 }
+                if (!viewModel.validateMaxVehicleWeightWithPackage(viewModel.inputData.packageList,
+                                viewModel.inputData.maxCarriableWeight)) return
 
                 viewModel.calculateDeliveryTime()
             } catch (e: Exception) {
@@ -78,6 +80,10 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
 
     override fun showVehicleDetailError() {
         println("Invalid input format for vehicle details. Vehicle all property value can't be zero or empty")
+    }
+
+    override fun showVehicleWeightError() {
+        println("vehicle max carriable weight must be larger than each package item weight")
     }
 
     /* fun setTestData() {

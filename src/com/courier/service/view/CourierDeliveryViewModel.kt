@@ -81,12 +81,25 @@ class CourierDeliveryViewModel(private val repository: CourierDeliveryRepository
         return true
     }
 
+    fun validateMaxVehicleWeightWithPackage(packageList: MutableList<Package>, maxWeight: Int): Boolean {
+
+        packageList.forEach {
+            if (it.weight > maxWeight) {
+                view?.showVehicleWeightError()
+                return false
+            }
+        }
+
+        return true
+    }
+
     interface View {
         fun showOutput(packageList: MutableList<Package>)
         fun showEmptyPackageError()
         fun showInvalidPackageError()
         fun showPackageDetailError()
         fun showVehicleDetailError()
+        fun showVehicleWeightError()
     }
 
 }

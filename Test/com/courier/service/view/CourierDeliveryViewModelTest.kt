@@ -39,4 +39,16 @@ class CourierDeliveryViewModelTest : TestCase() {
         assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "0", "100", "offer001")))
         assertFalse(viewModel.validatePackageDetail(listOf("pkg1", "22", "0", "offer001")))
     }
+
+    @Test
+    fun testVehicleDetail() {
+        setup()
+
+        assertTrue(viewModel.validateVehicleDetail(listOf("10", "100", "300")))
+        assertFalse(viewModel.validateVehicleDetail(listOf("10", "100")))
+        assertFalse(viewModel.validateVehicleDetail(listOf("0", "40","200")))
+        assertFalse(viewModel.validateVehicleDetail(listOf("10", "0","200")))
+        assertFalse(viewModel.validateVehicleDetail(listOf("10", "10","0")))
+
+    }
 }
