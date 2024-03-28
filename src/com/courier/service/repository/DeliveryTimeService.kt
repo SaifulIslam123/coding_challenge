@@ -47,6 +47,7 @@ class DeliveryTimeService(private val deliveryCostService: DeliveryCostService) 
              println("-----------------")*/
         }
 
+        finalOutputPackageList.sortBy { it.id }
         return finalOutputPackageList
     }
 

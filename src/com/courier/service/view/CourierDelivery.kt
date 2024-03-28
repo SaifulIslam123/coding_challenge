@@ -67,7 +67,6 @@ class CourierDelivery(private val viewModel: CourierDeliveryViewModel) : Courier
         println()
         println("OUTPUT -> PACKAGE_ID DISCOUNT TOTAL_COST ESTIMATED_DELIVERY_TIME_IN_HOURS")
         println()
-        packageList.sortBy { it.id }
         packageList.forEach {
             println("${it.packageName} ${it.discount} ${it.deliveryCost} ${it.deliveryTime}")
         }
